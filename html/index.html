@@ -1,1 +1,3508 @@
+<!DOCTYPE html>
 
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PhysiLab 12 — Tổng ôn toàn diện Vật lý 12</title>
+<style>
+* {box-sizing: border-box;
+    margin: 0;
+    padding: 0;}
+html{scroll-behavior: smooth;
+    scroll-padding-top: 80px;}
+body {min-width: 320px;
+    background: var(--bg);
+    color: var(--text);
+    font-family: Inter, "Segoe UI", Arial, sans-serif;
+    font-size: 13px;
+    line-height: 1.45;
+    transition:
+        background .25s ease,
+        color .25s ease;}
+button,
+input {font: inherit;}
+button{cursor: pointer}
+:root {--bg: #0b1326;
+    --bg-deep: #060e20;
+
+--panel: #171f33;
+--panel-2: #0d1629;
+--panel-3: #222a3d;
+
+--border: #27334a;
+--border-soft: #202c42;
+
+--text: #e7eef9;
+--muted: #92a4bd;
+--muted-2: #71839c;
+
+--blue: #8ed5ff;
+--blue-2: #5dbef5;
+--blue-dark: #172a43;
+
+--cyan: #55c7ff;
+--green: #6ce5ae;
+--orange: #ffb18e;
+
+--shadow: 0 10px 30px rgba(0,0,0,.15);}
+
+body.light-mode {--bg: #eef4fa;
+--bg-deep: #ffffff;
+
+--panel: #ffffff;
+--panel-2: #f4f8fc;
+--panel-3: #e7eef6;
+
+--border: #d5e0eb;
+--border-soft: #e1e9f1;
+
+--text: #17243a;
+--muted: #61728a;
+--muted-2: #7a8ba0;
+
+--blue: #1599db;
+--blue-2: #168dc9;
+--blue-dark: #dff3ff;
+
+--cyan: #159fdc;
+--green: #199a68;
+--orange: #df7650;
+
+--shadow: 0 10px 30px rgba(35,65,95,.10);}
+
+.navbar {position: sticky;
+top: 0;
+z-index: 1000;
+
+height: 63px;
+width: 100%;
+
+background: var(--bg-deep);
+border-bottom: 1px solid var(--border-soft);
+
+display: flex;
+align-items: center;
+
+padding: 0 12px;
+
+gap: 18px;
+
+transition:
+    background .25s ease,
+    border-color .25s ease}
+
+.logo-area {
+width: 205px;
+min-width: 205px;
+
+display: flex;
+align-items: center;
+gap: 9px;
+
+}
+
+.logo {
+width: 30px;
+height: 30px;
+
+flex: 0 0 auto;
+
+border-radius: 50%;
+
+background:
+    radial-gradient(
+        circle at center,
+        #142e54 0 25%,
+        #49baf3 26% 30%,
+        transparent 31%
+    ),
+    radial-gradient(
+        circle,
+        #16365f 0 50%,
+        #0a1d38 51% 70%,
+        #050d1d 71%
+    );
+
+border: 1px solid #1f5f8d;
+
+box-shadow:
+    0 0 12px rgba(79,189,247,.2);
+
+}
+
+.logo-text {
+display: flex;
+flex-direction: column;
+line-height: 1;
+}
+
+.logo-title {
+font-weight: 800;
+font-size: 14px;
+color: var(--text);
+}
+
+.logo-title span {
+color: var(--blue);
+}
+
+.logo-title small {
+font-size: 7px;
+color: var(--muted-2);
+}
+
+.logo-subtitle {
+margin-top: 5px;
+
+color: var(--muted-2);
+font-size: 8px;
+font-weight: 700;
+
+letter-spacing: .3px;
+
+}
+
+/* SEARCH */
+
+.top-search {
+width: 250px;
+height: 36px;
+
+background: var(--panel-2);
+border: 1px solid var(--border-soft);
+border-radius: 5px;
+
+display: flex;
+align-items: center;
+
+padding: 0 12px;
+
+color: var(--muted-2);
+
+cursor: text;
+
+transition:
+    border-color .2s ease,
+    background .2s ease;
+
+}
+
+.top-search,
+.top-search {
+border-color: var(--blue-2);
+}
+
+.top-search-icon {
+color: var(--blue);
+font-size: 14px;
+margin-right: 9px;
+}
+
+.top-search span {
+white-space: nowrap;
+overflow: hidden;
+text-overflow: ellipsis;
+}
+
+/* MENU */
+
+.menu {
+height: 100%;
+
+display: flex;
+align-items: center;
+gap: 4px;
+
+margin-left: auto;
+
+}
+
+.menu-item {
+height: 36px;
+
+display: flex;
+align-items: center;
+
+padding: 0 14px;
+
+border-radius: 4px;
+
+color: var(--muted);
+font-size: 11px;
+font-weight: 600;
+
+transition:
+    color .2s ease,
+    background .2s ease,
+    transform .15s ease;
+
+}
+
+.menu-item {
+color: var(--text);
+background: var(--panel-3);
+}
+
+.menu-item.active {
+background: #42b8ed;
+color: #071427;
+
+box-shadow: 0 0 15px rgba(66,184,237,.12);
+
+}
+.nav-right {
+display: flex;
+align-items: center;
+gap: 8px;
+}
+
+.lang {
+height: 32px;
+padding: 0 9px;
+
+display: flex;
+align-items: center;
+
+background: var(--panel-2);
+border: 1px solid var(--border);
+border-radius: 4px;
+
+color: var(--muted);
+font-size: 10px;
+
+}
+
+.theme-btn,
+.profile-btn {
+width: 32px;
+height: 32px;
+
+border: 0;
+border-radius: 5px;
+
+display: grid;
+place-items: center;
+
+background: var(--panel-2);
+color: var(--muted);
+
+transition:
+    transform .2s ease,
+    background .2s ease;
+
+}
+
+.theme-btn {
+transform: rotate(12deg);
+background: var(--panel-3);
+}
+
+.profile-btn {
+background: #91d8fb;
+color: #08203a;
+
+border-radius: 50%;
+
+}
+
+main {width: 100%;
+min-height: calc(100vh - 63px);
+
+background:
+    radial-gradient(
+        circle at 48% 25%,
+        rgba(24,52,87,.18),
+        transparent 35%
+    ),
+    var(--bg);
+
+padding: 14px 12px 80px;
+
+transition: background .25s ease;}
+
+.notice {
+min-height: 22px;
+
+display: inline-flex;
+align-items: center;
+
+padding: 4px 12px;
+
+background: var(--panel-3);
+border-radius: 13px;
+
+color: var(--muted);
+
+font-family:
+    "JetBrains Mono",
+    "SFMono-Regular",
+    Consolas,
+    monospace;
+
+font-size: 8px;
+font-weight: 700;
+
+letter-spacing: .25px;
+
+margin-bottom: 48px;
+
+}
+
+.notice strong {
+color: var(--text);
+}
+.hero {
+display: grid;
+
+grid-template-columns:
+    minmax(0, 1fr)
+    300px;
+
+gap: 34px;
+
+max-width: 935px;
+
+margin: 0 auto;
+
+}
+.hero-left {
+padding-top: 27px;
+}
+
+.eyebrow {
+color: #91bce2;
+
+font-family:
+    "JetBrains Mono",
+    Consolas,
+    monospace;
+
+font-size: 8px;
+font-weight: 800;
+
+letter-spacing: .55px;
+
+margin-bottom: 4px;
+
+}
+
+.hero-title {
+font-family:
+Inter,
+"Segoe UI",
+Arial,
+sans-serif;
+
+font-size: 38px;
+line-height: .91;
+
+letter-spacing: -1.8px;
+
+font-weight: 900;
+
+text-transform: uppercase;
+
+color: var(--text);
+
+}
+
+.hero-title span {
+color: var(--blue);
+}
+
+.hero-description {
+margin-top: 8px;
+
+font-size: 17px;
+line-height: 1.15;
+
+color: var(--muted);
+
+font-weight: 400;
+
+}
+
+.hero-text {
+max-width: 610px;
+
+margin-top: 12px;
+
+color: var(--muted);
+
+font-size: 13px;
+line-height: 1.48;
+
+}
+.hero-actions {
+margin-top: 17px;
+
+display: flex;
+align-items: center;
+gap: 9px;
+
+flex-wrap: wrap;
+
+}
+.action {
+height: 36px;
+
+border: 0;
+border-radius: 3px;
+
+padding: 0 18px;
+
+display: flex;
+align-items: center;
+gap: 8px;
+
+font-size: 11px;
+font-weight: 700;
+
+transition:
+    transform .15s ease,
+    filter .15s ease,
+    box-shadow .15s ease;
+
+}
+.action {
+transform: translateY(-1px);
+filter: brightness(1.07);
+}
+.action {
+transform: translateY(0);
+}
+.action.primary {
+background: var(--blue);
+color: #071528;
+}
+.action.secondary {
+background: var(--panel-3);
+color: var(--text);
+}
+
+.action.small {
+background: var(--blue-dark);
+color: var(--blue);
+
+font-size: 9px;
+padding: 0 13px;
+
+}
+.stats-panel {
+min-height: 351px;
+
+background: var(--panel);
+
+border-radius: 5px;
+
+padding: 18px;
+
+box-shadow: var(--shadow);
+
+border: 1px solid rgba(255,255,255,.015);
+
+transition:
+    background .25s ease,
+    box-shadow .25s ease;
+
+}
+.stats-header {
+display: flex;
+justify-content: space-between;
+align-items: center;
+
+margin-bottom: 12px;
+
+gap: 8px;
+
+}
+
+.stats-label {
+font-family:
+"JetBrains Mono",
+Consolas,
+monospace;
+
+font-size: 8px;
+font-weight: 900;
+
+color: #9bc4e8;
+
+letter-spacing: .55px;
+
+}
+
+.source {
+min-height: 33px;
+
+padding: 5px 9px;
+
+background: var(--panel-2);
+
+border: 1px solid var(--border-soft);
+
+border-radius: 3px;
+
+display: flex;
+align-items: center;
+
+gap: 7px;
+
+color: var(--muted);
+
+font-size: 8px;
+font-weight: 700;
+
+max-width: 145px;
+
+}
+
+.source-icon {
+color: var(--cyan);
+}
+.stat-grid {
+display: grid;
+
+grid-template-columns: 1fr 1fr;
+
+gap: 9px;
+
+}
+
+.stat-card {
+height: 94px;
+
+background: var(--bg-deep);
+
+border-radius: 3px;
+
+padding: 8px 10px;
+
+display: flex;
+flex-direction: column;
+justify-content: center;
+
+transition:
+    transform .2s ease,
+    background .25s ease;
+
+}
+
+.stat-card {
+transform: translateY(-2px);
+}
+
+.stat-number {
+font-family:
+Inter,
+"Segoe UI",
+Arial,
+sans-serif;
+
+font-size: 39px;
+line-height: .9;
+
+font-weight: 800;
+
+color: #bcd2f5;
+
+letter-spacing: -1.8px;
+
+}
+
+.stat-card(1) .stat-number {
+color: #83d5ff;
+}
+
+.stat-card(2) .stat-number {
+color: #a8bbf0;
+}
+
+.stat-card(3) .stat-number {
+color: #d7e2fa;
+}
+
+.stat-card(4) .stat-number {
+color: #ffb18e;
+}
+
+.stat-title {
+margin-top: 7px;
+
+color: var(--muted);
+
+font-size: 11px;
+font-weight: 700;
+
+line-height: 1.15;
+
+}
+.active-box {
+margin-top: 9px;
+
+height: 72px;
+
+background: var(--bg-deep);
+
+border-radius: 3px;
+
+padding: 9px 10px;
+
+}
+
+.active-top {
+display: flex;
+align-items: center;
+
+gap: 8px;
+
+color: var(--muted);
+
+font-family:
+    "JetBrains Mono",
+    Consolas,
+    monospace;
+
+font-size: 7px;
+font-weight: 800;
+
+}
+
+.active-top .activity {
+color: #68d0a7;
+font-size: 15px;
+}
+
+.refresh {
+margin-left: auto;
+color: var(--muted-2);
+
+cursor: pointer;
+
+transition: transform .4s ease;
+
+}
+
+.refresh {
+transform: rotate(180deg);
+}
+
+.active-bottom {
+margin-top: 4px;
+
+display: flex;
+align-items: baseline;
+gap: 4px;
+
+font-size: 9px;
+color: var(--muted);
+
+}
+
+.active-count {
+font-size: 20px;
+font-weight: 800;
+color: #8dd8ff;
+}
+
+.dot {
+color: #53dca1;
+font-size: 12px;
+}
+.search-panel {
+max-width: 935px;
+
+margin: 29px auto 0;
+
+padding: 12px;
+
+background: var(--panel);
+
+border-radius: 5px;
+
+transition: background .25s ease;
+
+}
+
+.search-box {
+width: 100%;
+height: 38px;
+
+border: 1px solid #42506a;
+
+background: var(--bg-deep);
+
+border-radius: 3px;
+
+display: flex;
+align-items: center;
+
+padding: 0 12px;
+
+color: var(--muted);
+
+transition:
+    border-color .2s ease,
+    box-shadow .2s ease;
+
+}
+
+.search-box {
+border-color: var(--blue-2);
+
+box-shadow:
+    0 0 0 2px rgba(93,190,245,.08);
+
+}
+
+.search-box-icon {
+color: var(--cyan);
+font-size: 17px;
+margin-right: 10px;
+}
+
+.search-box input {
+flex: 1;
+
+min-width: 0;
+
+border: 0;
+outline: 0;
+
+background: transparent;
+
+color: var(--text);
+
+font-size: 10px;
+
+}
+
+.search-box input::placeholder {
+color: var(--muted-2);
+}
+.quick-row {
+margin-top: 8px;
+
+display: flex;
+align-items: center;
+
+gap: 8px;
+
+overflow-x: auto;
+
+scrollbar-width: none;
+
+}
+
+.quick-row::-webkit-scrollbar {
+display: none;
+}
+
+.quick-label {
+white-space: nowrap;
+
+font-family:
+    "JetBrains Mono",
+    Consolas,
+    monospace;
+
+color: var(--muted);
+
+font-size: 7px;
+font-weight: 900;
+
+letter-spacing: .35px;
+
+}
+
+.tag {
+flex: 0 0 auto;
+
+padding: 4px 8px;
+
+background: var(--panel-3);
+
+border-radius: 2px;
+
+color: var(--muted);
+
+font-family:
+    "JetBrains Mono",
+    Consolas,
+    monospace;
+
+font-size: 7px;
+
+cursor: pointer;
+
+transition:
+    background .15s ease,
+    color .15s ease,
+    transform .15s ease;
+
+}
+
+.tag {
+background: var(--blue-dark);
+color: var(--blue);
+transform: translateY(-1px);
+}
+.search-results {
+display: none;
+
+margin-top: 12px;
+
+border-top: 1px solid var(--border);
+
+padding-top: 10px;
+
+}
+
+.search-results.visible {
+display: block;
+}
+
+.result-title {
+font-size: 9px;
+
+color: var(--muted);
+
+font-family:
+    "JetBrains Mono",
+    Consolas,
+    monospace;
+
+margin-bottom: 8px;
+
+}
+
+.result-item {
+padding: 10px;
+
+background: var(--bg-deep);
+
+border: 1px solid var(--border-soft);
+
+border-radius: 4px;
+
+margin-bottom: 7px;
+
+cursor: pointer;
+
+transition:
+    border-color .2s ease,
+    transform .15s ease;
+
+}
+
+.result-item {
+border-color: var(--blue-2);
+transform: translateX(2px);
+}
+
+.result-item strong {
+display: block;
+
+color: var(--blue);
+
+font-size: 11px;
+
+margin-bottom: 3px;
+
+}
+
+.result-item span {
+color: var(--muted);
+
+font-size: 9px;
+
+}
+.section {
+max-width: 935px;
+
+margin: 36px auto 0;
+
+padding: 35px 0;
+
+}
+
+.section-title {
+color: var(--text);
+
+font-size: 24px;
+
+font-weight: 800;
+
+margin-bottom: 20px;
+
+}
+
+.section-subtitle {
+color: var(--muted);
+
+font-size: 11px;
+
+margin-top: -13px;
+
+margin-bottom: 20px;
+
+}
+
+.lessons-section {
+max-width: 935px;
+margin: 36px auto 0;
+padding: 25px 0 40px;
+}
+
+.lessons-heading {
+display: flex;
+align-items: flex-end;
+justify-content: space-between;
+gap: 15px;
+
+margin-bottom: 15px;
+
+}
+
+.lessons-heading-left h2 {
+color: #e8f2ff;
+
+font-size: 24px;
+line-height: 1.1;
+
+font-weight: 900;
+
+margin-bottom: 5px;
+
+}
+
+.lessons-heading-left p {
+color: #8195ae;
+
+font-size: 9px;
+
+}
+
+.lessons-grid {
+display: grid;
+
+grid-template-columns: 1fr 1fr;
+
+gap: 13px;
+
+}
+.chapter-card {
+background: #171f33;
+
+border: 1px solid #202d44;
+
+border-radius: 5px;
+
+padding: 13px;
+
+min-width: 0;
+
+transition:
+    border-color .2s ease,
+    transform .2s ease,
+    background .2s ease;
+
+}
+
+.chapter-card {
+border-color: #355777;
+
+transform: translateY(-2px);
+
+}
+.chapter-header {
+display: flex;
+
+align-items: flex-start;
+
+gap: 10px;
+
+margin-bottom: 10px;
+
+}
+
+.chapter-icon {
+width: 28px;
+height: 28px;
+
+flex: 0 0 28px;
+
+display: grid;
+place-items: center;
+
+background: #0b162a;
+
+border: 1px solid #263c59;
+
+border-radius: 3px;
+
+color: #6fcfff;
+
+font-size: 14px;
+
+}
+
+.chapter-meta {
+min-width: 0;
+}
+
+.chapter-number {
+color: #54bff2;
+
+font-family:
+    "JetBrains Mono",
+    Consolas,
+    monospace;
+
+font-size: 7px;
+
+font-weight: 900;
+
+letter-spacing: .4px;
+
+margin-bottom: 1px;
+
+}
+
+.chapter-title {
+color: #edf5ff;
+
+font-size: 15px;
+
+font-weight: 900;
+
+line-height: 1;
+
+}
+
+.chapter-description {
+color: #7f94ad;
+
+font-size: 7px;
+
+margin-top: 4px;
+
+}
+.chapter-formula {
+background: #080f20;
+
+border: 1px solid #1c2a40;
+
+border-radius: 2px;
+
+padding: 7px;
+
+margin-bottom: 9px;
+
+}
+
+.formula-top {
+display: flex;
+
+align-items: center;
+
+justify-content: space-between;
+
+color: #7e9bb9;
+
+font-family:
+    "JetBrains Mono",
+    Consolas,
+    monospace;
+
+font-size: 6px;
+
+font-weight: 800;
+
+margin-bottom: 6px;
+
+}
+
+.formula-items {
+display: grid;
+
+grid-template-columns:
+    repeat(4, 1fr);
+
+gap: 5px;
+
+}
+
+.formula-item {
+min-width: 0;
+
+background: #111b30;
+
+border: 1px solid #1d2d45;
+
+padding: 5px 4px;
+
+text-align: center;
+
+border-radius: 2px;
+
+}
+
+.formula-item strong {
+display: block;
+
+color: #82d4ff;
+
+font-family:
+    "JetBrains Mono",
+    Consolas,
+    monospace;
+
+font-size: 7px;
+
+white-space: nowrap;
+
+overflow: hidden;
+
+text-overflow: ellipsis;
+
+}
+
+.formula-item span {
+display: block;
+
+margin-top: 2px;
+
+color: #7187a2;
+
+font-size: 6px;
+
+}
+.lesson-label {
+display: flex;
+
+align-items: center;
+
+justify-content: space-between;
+
+margin-bottom: 5px;
+
+color: #88a1bb;
+
+font-family:
+    "JetBrains Mono",
+    Consolas,
+    monospace;
+
+font-size: 6px;
+
+font-weight: 900;
+
+letter-spacing: .25px;
+
+}
+
+.lesson-label span {
+color: #7389a4;
+}
+
+.lesson-list {
+display: flex;
+
+flex-direction: column;
+
+gap: 4px;
+
+}
+
+.lesson-row {
+min-height: 23px;
+
+display: flex;
+
+align-items: center;
+
+gap: 6px;
+
+padding: 3px 5px;
+
+background: #080f20;
+
+border: 1px solid #17243a;
+
+border-radius: 2px;
+
+cursor: pointer;
+
+transition:
+    background .15s ease,
+    border-color .15s ease,
+    transform .15s ease;
+
+}
+
+.lesson-row {
+background: #101c31;
+
+border-color: #355575;
+
+transform: translateX(2px);
+
+}
+
+.lesson-number {
+width: 20px;
+height: 17px;
+
+flex: 0 0 20px;
+
+display: grid;
+place-items: center;
+
+background: #1b2940;
+
+color: #b8c9dd;
+
+font-family:
+    "JetBrains Mono",
+    Consolas,
+    monospace;
+
+font-size: 6px;
+
+font-weight: 900;
+
+border-radius: 2px;
+
+}
+
+.lesson-name {
+flex: 1;
+
+min-width: 0;
+
+color: #cbd9e9;
+
+font-size: 7px;
+
+font-weight: 700;
+
+white-space: nowrap;
+
+overflow: hidden;
+
+text-overflow: ellipsis;
+
+}
+
+.lesson-type {
+flex: 0 0 auto;
+
+padding: 3px 6px;
+
+border-radius: 2px;
+
+background: #182640;
+
+color: #8ab6db;
+
+font-family:
+    "JetBrains Mono",
+    Consolas,
+    monospace;
+
+font-size: 5.5px;
+
+font-weight: 800;
+
+}
+.chapter-actions {
+display: grid;
+
+grid-template-columns: 1fr 92px;
+
+gap: 6px;
+
+margin-top: 8px;
+
+}
+
+.chapter-action {
+height: 27px;
+
+border: 0;
+
+border-radius: 2px;
+
+background: #1c2940;
+
+color: #a2b7cd;
+
+font-size: 7px;
+
+font-weight: 700;
+
+transition:
+    background .15s ease,
+    color .15s ease;
+
+}
+
+.chapter-action {
+background: #263852;
+
+color: #e1edf9;
+
+}
+
+.chapter-action.primary {
+background: #91d8fb;
+
+color: #08203a;
+
+}
+
+.chapter-action.primary {
+background: #a7e1ff;
+
+color: #061b2e;
+
+}
+body.light-mode .chapter-card {
+background: #fff;
+
+border-color: #d8e2ec;
+
+}
+
+body.light-mode .chapter-icon,
+body.light-mode .chapter-formula,
+body.light-mode .lesson-row {
+background: #f4f8fc;
+}
+
+body.light-mode .chapter-title,
+body.light-mode .lessons-heading-left h2 {
+color: #17243a;
+}
+
+body.light-mode .chapter-description,
+body.light-mode .lesson-name {
+color: #62758b;
+}
+@media (max-width: 900px) {
+
+.lessons-grid {
+    grid-template-columns: 1fr;
+}
+
+}
+
+@media (max-width: 560px) {
+
+.lessons-heading {
+    align-items: flex-start;
+
+    flex-direction: column;
+}
+
+.formula-items {
+    grid-template-columns: 1fr 1fr;
+}
+
+.chapter-actions {
+    grid-template-columns: 1fr;
+}
+
+.chapter-action {
+    width: 100%;
+}
+
+}
+.toast {
+position: fixed;
+
+left: 50%;
+bottom: 25px;
+
+z-index: 2000;
+
+transform:
+    translate(-50%, 30px);
+
+opacity: 0;
+pointer-events: none;
+
+min-width: 250px;
+max-width: calc(100% - 30px);
+
+padding: 12px 16px;
+
+background: #151f33;
+
+border: 1px solid #30425d;
+
+border-radius: 5px;
+
+color: #dce8f7;
+
+font-size: 11px;
+
+text-align: center;
+
+box-shadow: 0 10px 30px rgba(0,0,0,.25);
+
+transition:
+    opacity .25s ease,
+    transform .25s ease;
+
+}
+
+.toast.show {
+opacity: 1;
+
+transform:
+    translate(-50%, 0);
+
+}
+.footer {
+max-width: 935px;
+
+margin: 20px auto 0;
+
+padding: 25px 0;
+
+border-top: 1px solid var(--border);
+
+color: var(--muted-2);
+
+font-size: 9px;
+
+text-align: center;
+
+}
+@media (max-width: 1050px) {
+
+.navbar {
+    gap: 10px;
+}
+
+.logo-area {
+    width: auto;
+    min-width: auto;
+}
+
+.top-search {
+    width: 190px;
+}
+
+.menu-item {
+    padding: 0 8px;
+}
+
+}
+
+@media (max-width: 900px) {
+
+.hero {
+    grid-template-columns: 1fr;
+}
+
+.stats-panel {
+    height: auto;
+}
+
+.cards {
+    grid-template-columns: 1fr 1fr;
+}
+
+.lab-container {
+    grid-template-columns: 1fr;
+}
+
+}
+
+@media (max-width: 680px) {
+
+.navbar {
+    height: auto;
+    min-height: 63px;
+
+    flex-wrap: wrap;
+
+    padding: 10px;
+}
+
+.logo-area {
+    flex: 1;
+}
+
+.top-search {
+    order: 3;
+
+    width: 100%;
+}
+
+.menu {
+    display: none;
+}
+
+.nav-right {
+    margin-left: auto;
+}
+
+.lang {
+    display: none;
+}
+
+main {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.notice {
+    width: 100%;
+
+    margin-bottom: 25px;
+
+    overflow: hidden;
+
+    white-space: nowrap;
+
+    text-overflow: ellipsis;
+}
+
+.hero-left {
+    padding-top: 5px;
+}
+
+.hero-title {
+    font-size: clamp(32px, 10vw, 48px);
+}
+
+.hero-description {
+    font-size: 15px;
+}
+
+.hero-actions {
+    flex-wrap: wrap;
+}
+
+.stats-panel {
+    padding: 14px;
+}
+
+.stat-card {
+    height: 90px;
+}
+
+.stat-number {
+    font-size: 33px;
+}
+
+.cards {
+    grid-template-columns: 1fr;
+}
+
+.section {
+    padding-top: 20px;
+}
+
+.section-title {
+    font-size: 21px;
+}
+
+.lab-section {
+    padding-top: 20px;
+}
+
+}
+
+@media (max-width: 400px) {
+
+.logo-subtitle {
+    display: none;
+}
+
+.logo-title {
+    font-size: 13px;
+}
+
+.hero-actions .action {
+    width: 100%;
+    justify-content: center;
+}
+
+.stat-grid {
+    gap: 7px;
+}
+
+.stat-card {
+    padding: 7px;
+}
+
+}
+</style>
+
+</head>
+<body>
+<header class="navbar">
+
+<div class="logo-area">
+
+    <div class="logo"></div>
+
+    <div class="logo-text">
+
+        <div class="logo-title">
+            PhysiLab <span>12</span>
+            <small>TN THPT 2026</small>
+        </div>
+        <div class="logo-subtitle">
+            Phòng thí nghiệm Vật lý số
+        </div>
+    </div>
+</div>
+<div
+    class="top-search"
+    id="topSearch"
+    title="Mở tìm kiếm">
+    <span class="top-search-icon">⌕</span>
+    <span>
+        Tìm nhanh công thức, định luật, bài thi...
+    </span>
+</div>
+<nav class="menu">
+    <div
+        class="menu-item active"
+        data-section="overview">
+        Tổng quan
+    </div>
+    <div
+        class="menu-item"
+        data-section="lessons">
+        Bài học
+    </div>
+    <div
+        class="menu-item"
+        data-section="practice">
+        Luyện đề
+    </div>
+    <div
+        class="menu-item"
+        data-section="lab">
+        Phòng thí nghiệm
+    </div>
+</nav>
+<div class="nav-right">
+    <div class="lang">
+        ⚑ VI&nbsp; | &nbsp;EN
+    </div>
+    <button
+        class="theme-btn"
+        id="themeButton"
+        title="Đổi giao diện"
+        aria-label="Đổi giao diện">
+        ☾
+    </button>
+</div>
+
+</header>
+<main id="overview">
+    <div class="notice">
+        <strong>
+            CHUẨN BỘ GIÁO DỤC & ĐÀO TẠO 2026
+        </strong>
+        &nbsp; • CẤU TRÚC 3 ĐỊNH DẠNG MỚI
+        (TRẮC NGHIỆM NHIỀU PHƯƠNG ÁN, ĐÚNG/SAI, TRẢ LỜI NGẮN)
+    </div>
+    <section class="hero">
+        <div class="hero-left">
+            <div class="eyebrow">
+                PHYSICS 12 MASTER HUB • COMPLETE SYLLABUS
+            </div>
+            <h1 class="hero-title">
+                TỔNG ÔN TOÀN DIỆN
+                <br>
+                <span>VẬT LÝ 12</span>
+            </h1>
+            <div class="hero-description">
+                COMPREHENSIVE PHYSICS 12 REVIEW & ANALYTICAL LAB
+            </div>
+            <p class="hero-text">
+                Nền tảng tri thức vật lý thực nghiệm & lý thuyết số hoá
+                bám sát từng bài học SGK Kết Nối Tri Thức.
+                Tích hợp tương tác mô hình hạt vi mô, trường véc-tơ
+                động lực học và hệ thống 500+ bài tập phân bậc nhận thức
+                cho kỳ thi tốt nghiệp THPT 2026.
+            </p>
+            <div class="hero-actions">
+                <button
+                    class="action primary"
+                    id="lessonsButton">
+                    ▣ &nbsp; Khám Phá 4 Chương SGK
+                </button>
+                <button
+                    class="action secondary"
+                    id="labButton">
+                    ⚗ &nbsp; Mô Phỏng Thí Nghiệm
+                </button>
+                <button
+                    class="action small"
+                    id="formulaButton">
+                    ▣ &nbsp; Tra cứu công thức
+                </button>
+            </div>
+        </div>
+        <aside class="stats-panel">
+            <div class="stats-header">
+                <div class="stats-label">
+                    CHỈ SỐ TÀI<br>
+                    NGUYÊN
+                </div>
+                <div class="source">
+                    <span class="source-icon">
+                        ◉
+                    </span>
+                    <span>
+                        Nguồn: CODATA/NIST & SGK
+                        KNTT Vật lý 12
+                    </span>
+                </div>
+            </div>
+            <div class="stat-grid">
+                <div class="stat-card">
+                    <div class="stat-number">
+                        04
+                    </div>
+                    <div class="stat-title">
+                        Chương Trọng
+                        <br>
+                        Tâm
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">
+                        21
+                    </div>
+                    <div class="stat-title">
+                        Bài Học Trọng
+                        <br>
+                        Điểm
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">
+                        150+
+                    </div>
+                    <div class="stat-title">
+                        Công Thức Cốt Lõi
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">
+                        08
+                    </div>
+                    <div class="stat-title">
+                        Mô Phỏng Vật Lý
+                    </div>
+                </div>
+            </div>
+            <div class="active-box">
+                <div class="active-top">
+                    <span class="activity">
+                        ↗
+                    </span>
+                    <span>
+                        LƯỢT TRUY CẬP
+                    </span>
+                    <span
+                        class="refresh"
+                        id="refreshVisits"
+                        title="Cập nhật">
+                        ⟳
+                    </span>
+                </div>
+                <div class="active-bottom">
+                    <span
+                        class="active-count"
+                        id="visitCount">
+                        1
+                    </span>
+                    <span>
+                        lần vào
+                    </span>
+                    <span class="dot">
+                        •
+                    </span>
+                    <span>
+                        1 phiên hoạt động (Thiết bị này)
+                    </span>
+                </div>
+            </div>
+        </aside>
+    </section>
+    <section
+        class="search-panel"
+        id="searchPanel">
+        <div class="search-box">
+            <span class="search-box-icon">
+                ⌕
+            </span>
+            <input
+                id="formulaSearch"
+                type="text"
+                autocomplete="off"
+                placeholder="Gõ từ khóa định luật, công thức, ký hiệu (VD: pV=nRT, Định luật Boyle, Lực từ, E=mc², Chu kỳ bán rã)...">
+        </div>
+        <div
+            class="search-results"
+            id="searchResults">
+        <div
+            class="result-title"
+            id="resultTitle">
+            KẾT QUẢ TRA CỨU
+        </div>
+        <div id="resultList"></div>
+    </div>
+</section>
+<section
+    class="lessons-section"
+    id="lessons">
+<div class="lessons-heading">
+    <div class="lessons-heading-left">
+        <h2>
+            Các Chương &amp; 21 Bài Lý Thuyết – Thí Nghiệm
+        </h2>
+        <p>
+            Phân rã chi tiết từng bài học, tích hợp phần loại nội dung
+            lý thuyết, thí nghiệm thực hành, công thức cốt lõi và bài tập vận dụng.
+        </p>
+    </div>
+</div>
+<div class="lessons-grid">
+    <article class="chapter-card">
+        <div class="chapter-header">
+            <div class="chapter-icon">
+                ♨
+            </div>
+            <div class="chapter-meta">
+                <div class="chapter-number">
+                    CHƯƠNG 01
+                </div>
+                <div class="chapter-title">
+                    VẬT LÝ NHIỆT
+                </div>
+                <div class="chapter-description">
+                    Mô hình phân tử, chuyển thể, nội năng và các định luật nhiệt
+                </div>
+            </div>
+        </div>
+        <div class="chapter-formula">
+            <div class="formula-top">
+                <span>
+                    CÔNG THỨC TRỌNG TÂM
+                </span>
+                <span>
+                    Đơn vị: SI
+                </span>
+            </div>
+            <div class="formula-items">
+                <div class="formula-item">
+                    <strong>ΔU = A + Q</strong>
+                    <span>Nguyên lý I</span>
+                </div>
+                <div class="formula-item">
+                    <strong>Q = mcΔt</strong>
+                    <span>Nhiệt lượng</span>
+                </div>
+                <div class="formula-item">
+                    <strong>Q = λm</strong>
+                    <span>Nóng chảy</span>
+                </div>
+                <div class="formula-item">
+                    <strong>Q = Lm</strong>
+                    <span>Hóa hơi</span>
+                </div>
+            </div>
+        </div>
+        <div class="lesson-label">
+            <span>
+                ▣ DANH MỤC 6 BÀI HỌC SGK KNTT
+            </span>
+            <span>
+                Nhấn để xem chi tiết bài
+            </span>
+        </div>
+        <div class="lesson-list">
+            <div class="lesson-row"
+                 data-lesson="Bài 1: Cấu trúc của chất. Sự chuyển thể">
+                <span class="lesson-number">01</span>
+                <span class="lesson-name">
+                    Bài 1: Cấu trúc của chất. Sự chuyển thể
+                </span>
+                <span class="lesson-type">
+                    Mô hình phân tử
+                </span>
+            </div>
+            <div class="lesson-row"
+                 data-lesson="Bài 2: Nội năng. Định luật I nhiệt động lực học">
+                <span class="lesson-number">02</span>
+                <span class="lesson-name">
+                    Bài 2: Nội năng. Định luật I nhiệt động lực học
+                </span>
+                <span class="lesson-type">
+                    ΔU = A + Q
+                </span>
+            </div>
+            <div class="lesson-row"
+                 data-lesson="Bài 3: Nhiệt độ. Thang nhiệt độ - Nhiệt kế">
+                <span class="lesson-number">03</span>
+                <span class="lesson-name">
+                    Bài 3: Nhiệt độ. Thang nhiệt độ - Nhiệt kế
+                </span>
+                <span class="lesson-type">
+                    Kelvin • Celsius
+                </span>
+            </div>
+            <div class="lesson-row"
+                 data-lesson="Bài 4: Nhiệt dung riêng">
+                <span class="lesson-number">04</span>
+                <span class="lesson-name">
+                    Bài 4: Nhiệt dung riêng
+                </span>
+                <span class="lesson-type">
+                    Q = mcΔt
+                </span>
+            </div>
+            <div class="lesson-row"
+                 data-lesson="Bài 5: Nhiệt nóng chảy riêng">
+                <span class="lesson-number">05</span>
+                <span class="lesson-name">
+                    Bài 5: Nhiệt nóng chảy riêng
+                </span>
+                <span class="lesson-type">
+                    Q = λm
+                </span>
+            </div>
+            <div class="lesson-row"
+                 data-lesson="Bài 6: Nhiệt hóa hơi riêng">
+                <span class="lesson-number">06</span>
+                <span class="lesson-name">
+                    Bài 6: Nhiệt hóa hơi riêng
+                </span>
+                <span class="lesson-type">
+                    Q = Lm
+                </span>
+            </div>
+        </div>
+        <div class="chapter-actions">
+            <button
+                class="chapter-action"
+                data-outline="Chương 1 — Vật lý nhiệt">
+                ▣ Sơ đồ tư duy Chương 1
+            </button>
+            <button
+                class="chapter-action primary"
+                data-theory="Chương 1 — Vật lý nhiệt">
+                ▤ Xem lý thuyết
+            </button>
+        </div>
+    </article>
+    <article class="chapter-card">
+        <div class="chapter-header">
+            <div class="chapter-icon">
+                ≋
+            </div>
+            <div class="chapter-meta">
+                <div class="chapter-number">
+                    CHƯƠNG 02
+                </div>
+                <div class="chapter-title">
+                    KHÍ LÍ TƯỞNG
+                </div>
+                <div class="chapter-description">
+                    Thuyết động học phân tử chất khí &amp; phương trình trạng thái
+                </div>
+            </div>
+        </div>
+        <div class="chapter-formula">
+            <div class="formula-top">
+                <span>
+                    CÔNG THỨC TRỌNG TÂM
+                </span>
+                <span>
+                    Đơn vị: SI
+                </span>
+            </div>
+            <div class="formula-items">
+                <div class="formula-item">
+                    <strong>pV = const</strong>
+                    <span>Boyle</span>
+                </div>
+                <div class="formula-item">
+                    <strong>V/T = const</strong>
+                    <span>Charles</span>
+                </div>
+                <div class="formula-item">
+                    <strong>pV = nRT</strong>
+                    <span>Clapeyron</span>
+                </div>
+                <div class="formula-item">
+                    <strong>v² = 3kT/m</strong>
+                    <span>Động năng vi mô</span>
+                </div>
+            </div>
+        </div>
+        <div class="lesson-label">
+            <span>
+                ▣ DANH MỤC 5 BÀI HỌC LÝ THUYẾT SGK KNTT
+            </span>
+            <span>
+                Nhấn để xem chi tiết bài
+            </span>
+        </div>
+        <div class="lesson-list">
+            <div class="lesson-row"
+                 data-lesson="Bài 8: Mô hình động học phân tử chất khí">
+                <span class="lesson-number">08</span>
+                <span class="lesson-name">
+                    Bài 8: Mô hình động học phân tử chất khí
+                </span>
+                <span class="lesson-type">
+                    Mô hình khí lí tưởng
+                </span>
+            </div>
+            <div class="lesson-row"
+                 data-lesson="Bài 9: Định luật Boyle">
+                <span class="lesson-number">09</span>
+                <span class="lesson-name">
+                    Bài 9: Định luật Boyle
+                </span>
+                <span class="lesson-type">
+                    pV = const
+                </span>
+            </div>
+            <div class="lesson-row"
+                 data-lesson="Bài 10: Định luật Charles">
+                <span class="lesson-number">10</span>
+                <span class="lesson-name">
+                    Bài 10: Định luật Charles
+                </span>
+                <span class="lesson-type">
+                    V / T = hằng số
+                </span>
+            </div>
+            <div class="lesson-row"
+                 data-lesson="Bài 11: Phương trình trạng thái khí lí tưởng">
+                <span class="lesson-number">11</span>
+                <span class="lesson-name">
+                    Bài 11: Phương trình trạng thái khí lí tưởng
+                </span>
+                <span class="lesson-type">
+                    pV = nRT
+                </span>
+            </div>
+            <div class="lesson-row"
+                 data-lesson="Bài 12: Áp suất khí theo mô hình động học phân tử">
+                <span class="lesson-number">12</span>
+                <span class="lesson-name">
+                    Bài 12: Áp suất khí theo mô hình động học phân tử
+                </span>
+                <span class="lesson-type">
+                    pV = 1/3 NkT
+                </span>
+            </div>
+        </div>
+        <div class="chapter-actions">
+            <button
+                class="chapter-action"
+                data-outline="Chương 2 — Khí lí tưởng">
+                ▣ Sơ đồ tư duy Chương 2
+            </button>
+            <button
+                class="chapter-action primary"
+                data-theory="Chương 2 — Khí lí tưởng">
+                ▤ Xem lý thuyết
+            </button>
+        </div>
+    </article>
+    <article class="chapter-card">
+        <div class="chapter-header">
+            <div class="chapter-icon">
+                ⚡
+            </div>
+            <div class="chapter-meta">
+                <div class="chapter-number">
+                    CHƯƠNG 03
+                </div>
+                <div class="chapter-title">
+                    TỪ TRƯỜNG
+                </div>
+                <div class="chapter-description">
+                    Lực từ, cảm ứng từ, hiện tượng cảm ứng điện từ &amp; ứng dụng
+                </div>
+            </div>
+        </div>
+        <div class="chapter-formula">
+            <div class="formula-top">
+                <span>
+                    CÔNG THỨC TRỌNG TÂM
+                </span>
+                <span>
+                    Đơn vị: Tesla (T), Weber (Wb)
+                </span>
+            </div>
+            <div class="formula-items">
+                <div class="formula-item">
+                    <strong>F = BILsinα</strong>
+                    <span>Lực Ampere</span>
+                </div>
+                <div class="formula-item">
+                    <strong>F = Bqv</strong>
+                    <span>Lực từ</span>
+                </div>
+                <div class="formula-item">
+                    <strong>Φ = BS cosα</strong>
+                    <span>Từ thông</span>
+                </div>
+                <div class="formula-item">
+                    <strong>e = -ΔΦ/Δt</strong>
+                    <span>Faraday</span>
+                </div>
+            </div>
+        </div>
+        <div class="lesson-label">
+            <span>
+                ▣ DANH MỤC 5 BÀI HỌC SGK KNTT
+            </span>
+            <span>
+                Nhấn để xem chi tiết bài
+            </span>
+        </div>
+        <div class="lesson-list">
+            <div class="lesson-row"
+                 data-lesson="Bài 14: Bài toán từ trường">
+                <span class="lesson-number">14</span>
+                <span class="lesson-name">
+                    Bài 14: Bài toán từ trường
+                </span>
+                <span class="lesson-type">
+                    Đường sức từ
+                </span>
+            </div>
+            <div class="lesson-row"
+                 data-lesson="Bài 15: Lực từ. Cảm ứng từ">
+                <span class="lesson-number">15</span>
+                <span class="lesson-name">
+                    Bài 15: Lực từ. Cảm ứng từ
+                </span>
+                <span class="lesson-type">
+                    Lực Ampere
+                </span>
+            </div>
+            <div class="lesson-row"
+                 data-lesson="Bài 16: Từ thông. Cảm ứng điện từ">
+                <span class="lesson-number">16</span>
+                <span class="lesson-name">
+                    Bài 16: Từ thông. Cảm ứng điện từ
+                </span>
+                <span class="lesson-type">
+                    Định luật Lenz &amp; Faraday
+                </span>
+            </div>
+            <div class="lesson-row"
+                 data-lesson="Bài 17: Máy phát điện xoay chiều">
+                <span class="lesson-number">17</span>
+                <span class="lesson-name">
+                    Bài 17: Máy phát điện xoay chiều
+                </span>
+                <span class="lesson-type">
+                    Suất điện động xoay chiều
+                </span>
+            </div>
+            <div class="lesson-row"
+                 data-lesson="Bài 18: Ứng dụng cảm ứng điện từ">
+                <span class="lesson-number">18</span>
+                <span class="lesson-name">
+                    Bài 18: Ứng dụng cảm ứng điện từ
+                </span>
+                <span class="lesson-type">
+                    Dòng điện xoáy
+                </span>
+            </div>
+        </div>
+        <div class="chapter-actions">
+            <button
+                class="chapter-action"
+                data-outline="Chương 3 — Từ trường">
+                ▣ Sơ đồ tư duy Chương 3
+            </button>
+            <button
+                class="chapter-action primary"
+                data-theory="Chương 3 — Từ trường">
+                ▤ Xem lý thuyết
+            </button>
+        </div>
+    </article>
+    <article class="chapter-card">
+        <div class="chapter-header">
+            <div class="chapter-icon">
+                ▦
+            </div>
+            <div class="chapter-meta">
+                <div class="chapter-number">
+                    CHƯƠNG 04
+                </div>
+                <div class="chapter-title">
+                    VẬT LÝ HẠT NHÂN
+                </div>
+                <div class="chapter-description">
+                    Cấu tạo hạt nhân, năng lượng liên kết, phóng xạ &amp; phản ứng hạt nhân
+                </div>
+            </div>
+        </div>
+        <div class="chapter-formula">
+            <div class="formula-top">
+                <span>
+                    CÔNG THỨC TRỌNG TÂM
+                </span>
+                <span>
+                    1 u ≈ 931.5 MeV/c²
+                </span>
+            </div>
+            <div class="formula-items">
+                <div class="formula-item">
+                    <strong>Δm = Zmₚ + Nmₙ − m</strong>
+                    <span>Độ hụt khối</span>
+                </div>
+                <div class="formula-item">
+                    <strong>Eₗk = Δmc²</strong>
+                    <span>Liên kết</span>
+                </div>
+                <div class="formula-item">
+                    <strong>N = N₀·2⁻ᵗ/ᵀ</strong>
+                    <span>Phóng xạ</span>
+                </div>
+                <div class="formula-item">
+                    <strong>E = Δmc²</strong>
+                    <span>Năng lượng</span>
+                </div>
+            </div>
+        </div>
+        <div class="lesson-label">
+            <span>
+                ▣ DANH MỤC 5 BÀI HỌC SGK KNTT
+            </span>
+            <span>
+                Nhấn để xem chi tiết bài
+            </span>
+        </div>
+        <div class="lesson-list">
+            <div class="lesson-row"
+                 data-lesson="Bài 20: Cấu tạo của hạt nhân. Năng lượng liên kết">
+                <span class="lesson-number">20</span>
+                <span class="lesson-name">
+                    Bài 20: Cấu tạo của hạt nhân. Năng lượng liên kết
+                </span>
+                <span class="lesson-type">
+                    Độ hụt khối
+                </span>
+            </div>
+            <div class="lesson-row"
+                 data-lesson="Bài 21: Phóng xạ">
+                <span class="lesson-number">21</span>
+                <span class="lesson-name">
+                    Bài 21: Phóng xạ
+                </span>
+                <span class="lesson-type">
+                    Chu kỳ bán rã
+                </span>
+            </div>
+            <div class="lesson-row"
+                 data-lesson="Bài 22: Phản ứng hạt nhân. Năng lượng phản ứng">
+                <span class="lesson-number">22</span>
+                <span class="lesson-name">
+                    Bài 22: Phản ứng hạt nhân. Năng lượng phản ứng
+                </span>
+                <span class="lesson-type">
+                    Bảo toàn Z, A
+                </span>
+            </div>
+            <div class="lesson-row"
+                 data-lesson="Bài 23: Năng lượng phân hạch">
+                <span class="lesson-number">23</span>
+                <span class="lesson-name">
+                    Bài 23: Năng lượng phân hạch
+                </span>
+                <span class="lesson-type">
+                    U-235 &amp; Pu-239
+                </span>
+            </div>
+            <div class="lesson-row"
+                 data-lesson="Bài 24: Năng lượng nhiệt hạch">
+                <span class="lesson-number">24</span>
+                <span class="lesson-name">
+                    Bài 24: Năng lượng nhiệt hạch
+                </span>
+                <span class="lesson-type">
+                    Tổng hợp hạt nhân
+                </span>
+            </div>
+        </div>
+        <div class="chapter-actions">
+            <button
+                class="chapter-action"
+                data-outline="Chương 4 — Vật lý hạt nhân">
+                ▣ Sơ đồ tư duy Chương 4
+            </button>
+            <button
+                class="chapter-action primary"
+                data-theory="Chương 4 — Vật lý hạt nhân">
+                ▤ Xem lý thuyết
+            </button>
+        </div>
+    </article>
+</div>
+</section>
+    <section
+        class="section"
+        id="practice">
+    <h2 class="section-title">
+        LUYỆN ĐỀ 2026
+    </h2>
+    <p class="section-subtitle">
+        Khu vực luyện tập được chuẩn bị theo định dạng thi mới.
+    </p>
+    <div class="cards">
+        <article class="card">
+            <div class="card-number">
+                A
+            </div>
+            <h3>
+                Trắc nghiệm nhiều phương án
+            </h3>
+            <p>
+                Luyện tốc độ xử lý câu hỏi
+                và củng cố kiến thức nền tảng.
+            </p>
+            <br>
+            <button
+                class="action small practice-btn"
+                data-type="Trắc nghiệm nhiều phương án">
+                Bắt đầu
+            </button>
+        </article>
+        <article class="card">
+            <div class="card-number">
+                B
+            </div>
+            <h3>
+                Đúng / Sai
+            </h3>
+            <p>
+                Phân tích từng mệnh đề và
+                kiểm tra mức độ hiểu bản chất.
+            </p>
+            <br>
+            <button
+                class="action small practice-btn"
+                data-type="Đúng / Sai">
+                Bắt đầu
+            </button>
+        </article>
+        <article class="card">
+            <div class="card-number">
+                C
+            </div>
+            <h3>
+                Trả lời ngắn
+            </h3>
+            <p>
+                Rèn khả năng tính toán và
+                đưa ra kết quả chính xác.
+            </p>
+            <br>
+            <button
+                class="action small practice-btn"
+                data-type="Trả lời ngắn">
+                Bắt đầu
+            </button>
+        </article>
+        <article class="card">
+            <div class="card-number">
+                500+
+            </div>
+            <h3>
+                Ngân hàng bài tập
+            </h3>
+            <p>
+                Hệ thống bài tập phân tầng
+                theo mức độ nhận thức.
+            </p>
+            <br>
+            <button
+                class="action small practice-btn"
+                data-type="Ngân hàng bài tập">
+                Khám phá
+            </button>
+        </article>
+    </div>
+</section>
+<section
+    class="lab-section"
+    id="lab">
+    <h2 class="section-title">
+        PHÒNG THÍ NGHIỆM VẬT LÝ
+    </h2>
+    <p class="section-subtitle">
+        Mô phỏng trực quan giúp quan sát các hiện tượng vật lý.
+    </p>
+    <div class="lab-container">
+        <div class="lab-card">
+            <h3>
+                ⚛ Mô phỏng chuyển động hạt
+            </h3>
+            <p>
+                Quan sát chuyển động ngẫu nhiên
+                của các hạt trong mô hình đơn giản.
+            </p>
+            <div
+                class="simulation"
+                id="simulation">
+                <span
+                    class="grid-line grid-horizontal"
+                    style="top:25%;"></span>
+                <span
+                    class="grid-line grid-horizontal"
+                    style="top:50%;"></span>
+                <span
+                    class="grid-line grid-horizontal"
+                    style="top:75%;"></span>
+                <span
+                    class="grid-line grid-vertical"
+                    style="left:25%;"></span>
+                <span
+                    class="grid-line grid-vertical"
+                    style="left:50%;"></span>
+                <span
+                    class="grid-line grid-vertical"
+                    style="left:75%;"></span>
+                <span class="particle"></span>
+                <span class="particle"></span>
+                <span class="particle"></span>
+            </div>
+            <div class="lab-controls">
+                <button
+                    class="action small"
+                    id="startSimulation">
+                    ▶ Chạy mô phỏng
+                </button>
+                <button
+                    class="action small"
+                    id="stopSimulation">
+                    ■ Dừng
+                </button>
+            </div>
+        </div>
+        <div class="lab-card">
+            <h3>
+                📐 Công thức nhanh
+            </h3>
+            <p>
+                Một số công thức thường xuyên xuất hiện
+                trong quá trình ôn tập.
+            </p>
+
+
+            <div class="result-item">
+
+                <strong>
+                    Phương trình trạng thái
+                </strong>
+
+                <span>
+                    pV = nRT
+                </span>
+
+            </div>
+
+
+            <div class="result-item">
+
+                <strong>
+                    Năng lượng Einstein
+                </strong>
+
+                <span>
+                    E = mc²
+                </span>
+
+            </div>
+
+
+            <div class="result-item">
+
+                <strong>
+                    Lực Lorentz
+                </strong>
+
+                <span>
+                    F = |q|vB sin α
+                </span>
+
+            </div>
+
+
+            <div class="result-item">
+
+                <strong>
+                    Định luật phóng xạ
+                </strong>
+
+                <span>
+                    N = N₀ · 2⁻ᵗ/ᵀ
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+<footer class="footer">
+
+    PhysiLab 12 • 2026
+
+</footer>
+
+</main>
+<div
+    class="toast"
+    id="toast"
+    role="status"
+    aria-live="polite">
+</div>
+<script>
+const formulaDatabase = [
+
+{
+    keywords: [
+        "pv=nrt",
+        "clapeyron",
+        "khí lý tưởng",
+        "phương trình trạng thái"
+    ],
+
+    title: "Phương trình trạng thái khí lý tưởng",
+
+    description:
+        "pV = nRT — liên hệ áp suất, thể tích, lượng chất và nhiệt độ."
+},
+
+
+{
+    keywords: [
+        "boyle",
+        "bôi lơ",
+        "đẳng nhiệt"
+    ],
+
+    title: "Định luật Boyle",
+
+    description:
+        "Ở nhiệt độ không đổi: pV = hằng số."
+},
+
+
+{
+    keywords: [
+        "lorentz",
+        "lực từ",
+        "qvb"
+    ],
+
+    title: "Lực Lorentz",
+
+    description:
+        "F = |q|vB sin α — lực tác dụng lên điện tích chuyển động trong từ trường."
+},
+
+
+{
+    keywords: [
+        "cảm ứng điện từ",
+        "faraday",
+        "suất điện động cảm ứng"
+    ],
+
+    title: "Cảm ứng điện từ",
+
+    description:
+        "Suất điện động cảm ứng liên quan đến tốc độ biến thiên của từ thông."
+},
+
+
+{
+    keywords: [
+        "phóng xạ",
+        "chu kỳ bán rã",
+        "bán rã"
+    ],
+
+    title: "Định luật phóng xạ",
+
+    description:
+        "N = N₀ · 2⁻ᵗ/ᵀ — T là chu kỳ bán rã."
+},
+
+
+{
+    keywords: [
+        "độ hụt khối",
+        "hụt khối"
+    ],
+
+    title: "Độ hụt khối",
+
+    description:
+        "Δm = Zmₚ + Nmₙ − m_hạt nhân."
+},
+
+
+{
+    keywords: [
+        "einstein",
+        "e=mc",
+        "năng lượng"
+    ],
+
+    title: "Hệ thức năng lượng Einstein",
+
+    description:
+        "E = mc² — hệ thức tương đương khối lượng và năng lượng."
+},
+
+
+{
+    keywords: [
+        "nhiệt động lực học",
+        "nguyên lý i",
+        "nguyên lý 1"
+    ],
+
+    title: "Nguyên lý I nhiệt động lực học",
+
+    description:
+        "Độ biến thiên nội năng liên hệ với nhiệt lượng và công của hệ."
+}
+
+];
+const searchInput =
+document.getElementById("formulaSearch");
+
+const searchPanel =
+document.getElementById("searchPanel");
+
+const searchResults =
+document.getElementById("searchResults");
+
+const resultList =
+document.getElementById("resultList");
+
+const resultTitle =
+document.getElementById("resultTitle");
+
+const toast =
+document.getElementById("toast");
+
+const themeButton =
+document.getElementById("themeButton");
+
+const visitCountElement =
+document.getElementById("visitCount");
+let toastTimer;
+
+function showToast(message) {
+
+clearTimeout(toastTimer);
+
+toast.textContent = message;
+
+toast.classList.add("show");
+
+toastTimer = setTimeout(() => {
+
+    toast.classList.remove("show");
+
+}, 2600);
+
+}
+function normalizeText(text) {
+
+return text
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/đ/g, "d")
+    .trim();
+
+}
+
+function searchFormulas(keyword) {
+
+const normalized =
+    normalizeText(keyword);
+
+if (!normalized) {
+
+    searchResults.classList.remove("visible");
+
+    resultList.innerHTML = "";
+
+    return;
+
+}
+
+
+const results =
+    formulaDatabase.filter(item => {
+
+        const searchable =
+            normalizeText(
+                item.keywords.join(" ")
+                + " "
+                + item.title
+                + " "
+                + item.description
+            );
+
+        return searchable.includes(normalized);
+
+    });
+
+
+searchResults.classList.add("visible");
+
+
+if (results.length === 0) {
+
+    resultTitle.textContent =
+        "KHÔNG TÌM THẤY KẾT QUẢ";
+
+    resultList.innerHTML = `
+
+        <div class="result-item">
+
+            <strong>
+                Không tìm thấy "${escapeHTML(keyword)}"
+            </strong>
+
+            <span>
+                Hãy thử: pV=nRT, Boyle, Lorentz,
+                cảm ứng điện từ, phóng xạ, độ hụt khối...
+            </span>
+
+        </div>
+
+    `;
+
+    return;
+
+}
+
+
+resultTitle.textContent =
+    `TÌM THẤY ${results.length} KẾT QUẢ`;
+
+
+resultList.innerHTML =
+    results.map(item => `
+
+        <div
+            class="result-item"
+            data-result="${escapeHTML(item.title)}">
+
+            <strong>
+                ${escapeHTML(item.title)}
+            </strong>
+
+            <span>
+                ${escapeHTML(item.description)}
+            </span>
+
+        </div>
+
+    `).join("");
+
+}
+
+function escapeHTML(text) {
+
+return String(text)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+
+}
+
+searchInput.addEventListener(
+"input",
+function() {
+
+    searchFormulas(this.value);
+
+}
+
+);
+
+searchInput.addEventListener(
+"keydown",
+function(event) {
+
+    if (event.key === "Enter") {
+
+        const keyword =
+            this.value.trim();
+
+        if (!keyword) {
+
+            showToast(
+                "Hãy nhập từ khóa cần tra cứu."
+            );
+
+            return;
+
+        }
+
+        searchFormulas(keyword);
+
+        showToast(
+            `Đã tra cứu: ${keyword}`
+        );
+
+    }
+
+}
+
+);
+document
+.querySelectorAll(".tag")
+.forEach(tag => {
+
+    tag.addEventListener(
+        "click",
+        () => {
+
+            const keyword =
+                tag.dataset.keyword;
+
+            searchInput.value =
+                keyword;
+
+            searchFormulas(keyword);
+
+            focusSearch(false);
+
+        }
+    );
+
+});
+
+function focusSearch(focusInput = true) {
+
+searchPanel.scrollIntoView({
+
+    behavior: "smooth",
+
+    block: "center"
+
+});
+
+
+if (focusInput) {
+
+    setTimeout(() => {
+
+        searchInput.focus();
+
+    }, 500);
+
+}
+
+}
+
+document
+.getElementById("formulaButton")
+.addEventListener(
+"click",
+() => {
+
+        focusSearch(true);
+
+    }
+);
+
+document
+.getElementById("topSearch")
+.addEventListener(
+"click",
+() => {
+
+        focusSearch(true);
+
+    }
+);
+
+function scrollToLessons() {
+
+document
+    .getElementById("lessons")
+    .scrollIntoView({
+
+        behavior: "smooth",
+
+        block: "start"
+
+    });
+
+}
+
+document
+.getElementById("lessonsButton")
+.addEventListener(
+"click",
+scrollToLessons
+);
+function openLab() {
+
+document
+    .getElementById("lab")
+    .scrollIntoView({
+
+        behavior: "smooth",
+
+        block: "start"
+
+    });
+
+showToast(
+    "Đã mở Phòng thí nghiệm Vật lý."
+);
+
+}
+
+document
+.getElementById("labButton")
+.addEventListener(
+"click",
+openLab
+);
+const menuItems =
+document.querySelectorAll(".menu-item");
+
+menuItems.forEach(item => {
+
+item.addEventListener(
+    "click",
+    () => {
+
+        menuItems.forEach(menu => {
+
+            menu.classList.remove("active");
+
+        });
+
+        item.classList.add("active");
+
+
+        const section =
+            item.dataset.section;
+
+
+        if (section === "overview") {
+
+            window.scrollTo({
+
+                top: 0,
+
+                behavior: "smooth"
+
+            });
+
+        } else {
+
+            const target =
+                document.getElementById(section);
+
+            if (target) {
+
+                target.scrollIntoView({
+
+                    behavior: "smooth",
+
+                    block: "start"
+
+                });
+
+            }
+
+        }
+
+    }
+);
+
+});
+const sectionIds = [
+"overview",
+"lessons",
+"practice",
+"lab"
+];
+
+const observedSections =
+sectionIds
+.map(id =>
+document.getElementById(id)
+)
+.filter(Boolean);
+
+const sectionObserver =
+new IntersectionObserver(
+entries => {
+
+        const visible =
+            entries
+                .filter(entry =>
+                    entry.isIntersecting
+                )
+                .sort(
+                    (a,b) =>
+                        b.intersectionRatio -
+                        a.intersectionRatio
+                )[0];
+
+
+        if (!visible) {
+            return;
+        }
+
+
+        const current =
+            visible.target.id;
+
+
+        menuItems.forEach(item => {
+
+            item.classList.toggle(
+                "active",
+                item.dataset.section === current
+            );
+
+        });
+
+    },
+    {
+        root: null,
+
+        threshold: .2,
+
+        rootMargin:
+            "-80px 0px -45% 0px"
+    }
+);
+
+observedSections.forEach(section => {
+
+sectionObserver.observe(section);
+
+});
+function applyTheme(theme) {
+
+if (theme === "light") {
+
+    document.body.classList.add(
+        "light-mode"
+    );
+
+    themeButton.textContent = "☀";
+
+} else {
+
+    document.body.classList.remove(
+        "light-mode"
+    );
+
+    themeButton.textContent = "☾";
+
+}
+
+}
+
+const savedTheme =
+localStorage.getItem(
+"physilab-theme"
+);
+
+if (savedTheme) {
+
+applyTheme(savedTheme);
+
+} else {
+
+applyTheme("dark");
+
+}
+
+themeButton.addEventListener(
+"click",
+() => {
+
+    const isLight =
+        document.body.classList.contains(
+            "light-mode"
+        );
+
+
+    const newTheme =
+        isLight ? "dark" : "light";
+
+
+    applyTheme(newTheme);
+
+
+    localStorage.setItem(
+        "physilab-theme",
+        newTheme
+    );
+
+
+    showToast(
+        newTheme === "light"
+            ? "Đã chuyển sang giao diện sáng."
+            : "Đã chuyển sang giao diện tối."
+    );
+
+}
+
+);
+function updateVisitCounter() {
+
+let visits =
+    Number(
+        localStorage.getItem(
+            "physilab-visits"
+        )
+    ) || 0;
+
+
+visits++;
+
+localStorage.setItem(
+    "physilab-visits",
+    visits
+);
+
+
+visitCountElement.textContent =
+    visits;
+
+}
+
+updateVisitCounter();
+document
+.getElementById("refreshVisits")
+.addEventListener(
+"click",
+() => {
+
+        const refresh =
+            document.getElementById(
+                "refreshVisits"
+            );
+
+        refresh.style.transform =
+            "rotate(360deg)";
+
+
+        setTimeout(() => {
+
+            refresh.style.transform =
+                "";
+
+        }, 450);
+
+
+        showToast(
+            "Đã cập nhật lượt truy cập."
+        );
+
+    }
+);
+
+document
+.querySelectorAll(".practice-btn")
+.forEach(button => {
+
+    button.addEventListener(
+        "click",
+        () => {
+
+            const type =
+                button.dataset.type;
+
+            showToast(
+                `${type}: khu vực luyện tập đang sẵn sàng phát triển.`
+            );
+
+        }
+    );
+
+});
+
+const particles =
+document.querySelectorAll(
+".particle"
+);
+
+const startSimulation =
+document.getElementById(
+"startSimulation"
+);
+
+const stopSimulation =
+document.getElementById(
+"stopSimulation"
+);
+
+function setSimulationRunning(running) {
+
+particles.forEach(
+    particle => {
+
+        particle.style.animationPlayState =
+            running
+                ? "running"
+                : "paused";
+
+    }
+);
+
+}
+
+startSimulation.addEventListener(
+"click",
+() => {
+
+    setSimulationRunning(true);
+
+    showToast(
+        "Mô phỏng chuyển động hạt đã chạy."
+    );
+
+}
+
+);
+
+stopSimulation.addEventListener(
+"click",
+() => {
+
+    setSimulationRunning(false);
+
+    showToast(
+        "Mô phỏng đã tạm dừng."
+    );
+
+}
+
+);
+document
+.querySelectorAll(".card[data-topic]")
+.forEach(card => {
+
+    card.addEventListener(
+        "click",
+        event => {
+
+            if (
+                event.target.closest("button")
+            ) {
+                return;
+            }
+
+
+            const topic =
+                card.dataset.topic;
+
+
+            searchInput.value =
+                topic;
+
+            searchFormulas(topic);
+
+            focusSearch(false);
+
+        }
+    );
+
+});
+
+document.addEventListener(
+"keydown",
+event => {
+
+    if (
+        event.key === "Escape" &&
+        document.activeElement === searchInput
+    ) {
+
+        searchInput.value = "";
+
+        searchFormulas("");
+
+        searchInput.blur();
+
+    }
+
+}
+
+);
+document
+.querySelector(".profile-btn")
+.addEventListener(
+"click",
+() => {
+
+        showToast(
+            "Khu vực tài khoản PhysiLab 12."
+        );
+
+    }
+);
+
+document
+.querySelector(".lang")
+.addEventListener(
+"click",
+() => {
+
+        showToast(
+            "Chế độ VI đang được sử dụng."
+        );
+
+    }
+);
+
+setSimulationRunning(true);
+document
+.querySelectorAll(".lesson-row")
+.forEach(row => {
+
+    row.addEventListener("click", () => {
+
+        const lesson =
+            row.dataset.lesson;
+
+        showToast(
+            `Đang mở: ${lesson}`
+        );
+
+    });
+
+});
+
+document
+.querySelectorAll("[data-outline]")
+.forEach(button => {
+
+    button.addEventListener(
+        "click",
+        event => {
+
+            event.stopPropagation();
+
+            const chapter =
+                button.dataset.outline;
+
+            showToast(
+                `Sơ đồ tư duy: ${chapter}`
+            );
+
+        }
+    );
+
+});
+
+document
+.querySelectorAll("[data-theory]")
+.forEach(button => {
+
+    button.addEventListener(
+        "click",
+        event => {
+
+            event.stopPropagation();
+
+            const chapter =
+                button.dataset.theory;
+
+            showToast(
+                `Đang mở lý thuyết: ${chapter}`
+            );
+
+        }
+    );
+
+});
+
+const lessonMenu =
+document.querySelector(
+'.menu-item[data-section="lessons"]'
+);
+
+if (lessonMenu) {
+
+lessonMenu.addEventListener(
+    "click",
+    () => {
+
+        setTimeout(() => {
+
+            document
+                .getElementById("lessons")
+                .scrollIntoView({
+                    behavior: "smooth",
+                    block: "start"
+                });
+
+        }, 50);
+
+    }
+);
+
+}
+const lessonsButton =
+document.getElementById(
+"lessonsButton"
+);
+
+if (lessonsButton) {
+
+lessonsButton.addEventListener(
+    "click",
+    () => {
+
+        document
+            .getElementById("lessons")
+            .scrollIntoView({behavior: "smooth",
+                block: "start"});});}
+
+</script>
+
+</body>
+</html>
